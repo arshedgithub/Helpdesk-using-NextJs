@@ -1,3 +1,7 @@
+import { notFound } from "next/navigation";
+
+export const dynamicParams = true;
+
 interface Params {
     id: number;
 }
@@ -7,11 +11,17 @@ interface TicketDetailsProps {
 }
 
 interface Ticket {
-    id: string;
+    id: number;
     title: string;
     body: string;
     priority: string;
     user_email: string;
+}
+
+async function generateStaticParams(): Promise<{ id: number }> {
+    const res = await fetch('http://localhost:4000/tickets');
+    const tickets: Ticket[] = await res.json();
+    return tickets.map((ticket: Ticket) => ({ id: ticket.id }));
 }
 
 async function getTicket(id: number): Promise<Ticket> {
@@ -20,6 +30,7 @@ async function getTicket(id: number): Promise<Ticket> {
             revalidate: 60
         }
     });
+    if (!res.ok) notFound();
     return res.json();
 }
 
