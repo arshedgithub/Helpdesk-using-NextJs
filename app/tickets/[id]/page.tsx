@@ -6,9 +6,37 @@ interface TicketDetailsProps {
     params: Params;
 }
 
-export default function TicketDetails({ params }: TicketDetailsProps) {
-    const id = params.id;
+interface Ticket {
+    id: string;
+    title: string;
+    body: string;
+    priority: string;
+    user_email: string;
+}
+
+async function getTicket(id: number): Promise<Ticket> {
+    const res = await fetch(`http://localhost:4000/tickets/${id}`, {
+        next: {
+            revalidate: 60
+        }
+    });
+    return res.json();
+}
+
+export default async function TicketDetails({ params }: TicketDetailsProps) {
+    const ticket = await getTicket(params.id);
+
     return (
-        <h1>Ticket Details - {id}</h1>
+        <main>
+            <nav>
+                <h2>Ticket Details</h2>
+            </nav>
+            <div className="card">
+                <h3>{ticket.title}</h3>
+                <small>{ticket.user_email}</small>
+                <p>{ticket.body}</p>
+                <div className={`pill ${ticket.priority}`}>{ticket.priority} priority</div>
+            </div>
+        </main>
     )
 }
