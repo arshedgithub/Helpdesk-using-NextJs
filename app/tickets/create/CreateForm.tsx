@@ -23,7 +23,7 @@ export default function CreateForm() {
         setIsLoading(true);
 
         const ticket: Ticket = {
-            id: 4, title, body, priority, user_email: 'arshed@gmail.com'
+            title, body, priority, user_email: 'arshed@gmail.com'
         }
 
         const res = await fetch('http://localhost:4000/tickets', {
