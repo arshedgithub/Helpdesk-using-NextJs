@@ -1,7 +1,10 @@
 import CreateForm from "./CreateForm";
 
-export default function create(){
+export default function create() {
     return (
-        <CreateForm />
+        <main>
+            <h2 className="text-primary text-center">Add a New Ticket</h2>
+            <CreateForm />
+        </main>
     );
 }

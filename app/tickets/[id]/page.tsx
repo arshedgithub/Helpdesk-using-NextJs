@@ -1,3 +1,4 @@
+import { Ticket } from "@/app/interface/Ticket";
 import { notFound } from "next/navigation";
 
 export const dynamicParams = true;
@@ -8,14 +9,6 @@ interface Params {
 
 interface TicketDetailsProps {
     params: Params;
-}
-
-interface Ticket {
-    id: number;
-    title: string;
-    body: string;
-    priority: string;
-    user_email: string;
 }
 
 async function generateStaticParams(): Promise<{ id: number }> {
